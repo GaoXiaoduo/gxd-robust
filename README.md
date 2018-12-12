@@ -197,8 +197,11 @@ robust 0.4.82版本不支持android studio 3.2.1， gradle 4.6，运行此插件
 9）点击加载按钮后，点击页面跳转，查看更改后的文字已经更改，具体代码查看github的demo
 
 **备注：**
+
 参考接入文档：https://blog.csdn.net/snailbaby_soko/article/details/69524380
+
 github 官方文档：https://github.com/Meituan-Dianping/Robust
+
 github demo下载地址：https://github.com/GaoXiaoduo/gxd-robust.git
 
 
