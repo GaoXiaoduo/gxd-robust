@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+//制作补丁时将这个打开，auto-patch-plugin紧跟着com.android.application
+//apply plugin: 'auto-patch-plugin'
+//制作补丁时将将robust关闭
+apply plugin: 'robust'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "com.gxd.robust"
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        /* Enabling multidex support.当DEX中的方法数超过最大值65536时,需要使用,否则打包apk会失败*/
+        multiDexEnabled true
+    }
+    signingConfigs {
+        Properties localProps = new Properties()
+        localProps.load(new FileInputStream(file('../local.properties')))
+        Properties keyProps = new Properties()
+        // 如果读取不到'keystore.props.file'属性，就使用debug keystore
+        if (localProps['keystore.props.file']) {
+            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+        }
+        debug {
+            // 使用assert确保存在该属性否则报错，避免错误打包
+            assert localProps['keystore.props.file']
+            keyAlias keyProps["aliasDebug"]
+            keyPassword keyProps["passDebug"]
+            storeFile file(keyProps["storeDebug"])
+            storePassword keyProps["storePassDebug"]
+        }
+        release {
+            // 使用assert确保存在该属性否则报错，避免错误打包
+            assert localProps['keystore.props.file']
+            keyAlias keyProps["alias"]
+            keyPassword keyProps["pass"]
+            storeFile file(keyProps["store"])
+            storePassword keyProps["storePass"]
+        }
+    }
+    buildTypes {
+        debug {
+            // 是否进行混淆
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.meituan.robust:robust:0.4.82'
+}
