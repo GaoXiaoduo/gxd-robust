@@ -1,7 +1,7 @@
 # gxd-robust
-美团Robust热修复接入说明文档
+# 美团Robust热修复接入说明文档
 
-环境配置
+## 环境配置
 
 1）工程build gradle
 
@@ -9,7 +9,8 @@
     classpath 'com.meituan.robust:gradle-plugin:0.4.82'
     classpath 'com.meituan.robust:auto-patch-plugin:0.4.82'
 
-注意：robust 0.4.82版本不支持android studio 3.2.1， gradle 4.6，运行此插件请把android studio降为3.1.2，gradle降为4.4
+**注意：**
+robust 0.4.82版本不支持android studio 3.2.1， gradle 4.6，运行此插件请把android studio降为3.1.2，gradle降为4.4
 
 2）app下的build gradle
 
@@ -24,7 +25,7 @@
     配置debug，release的signingConfigs
     开启混淆 minifyEnabled true
 
-文件配置
+## 文件配置
 
 1）在app文件夹下添加robust.xml文件，路径为：app/robust.xml,
 
@@ -136,7 +137,7 @@
         }
     }
 
-- 获取补丁回调
+6）获取补丁回调
 
     public class RobustCallBackImp implements RobustCallBack
     {
@@ -169,7 +170,7 @@
         }
     }
 
-6）为修改后的代码打补丁包
+7）为修改后的代码打补丁包
 
     //开启此插件
     apply plugin: 'auto-patch-plugin'
@@ -185,7 +186,7 @@
 
 补丁生成成功后会生成patch.jar文件，文件路径为：app/build/outputs/robust/patch.jar
 
-7）将补丁文件copy到手机目录/sdcard/robust下
+8）将补丁文件copy到手机目录/sdcard/robust下
 
 补丁的路径/sdcard/robust是PatchManipulateImp中指定的
 
@@ -193,12 +194,12 @@
 
     adb push /Users/GaoXiaoduo/Workspace/Test_Workspace/robustgxd/app/build/outputs/robust/patch.jar /sdcard/robust/patch.jar
 
-8）点击加载按钮后，点击页面跳转，查看更改后的文字已经更改，具体代码查看github的demo
+9）点击加载按钮后，点击页面跳转，查看更改后的文字已经更改，具体代码查看github的demo
 
-备注：
-
+**备注：**
 参考接入文档：https://blog.csdn.net/snailbaby_soko/article/details/69524380
-
 github 官方文档：https://github.com/Meituan-Dianping/Robust
-
 github demo下载地址：https://github.com/GaoXiaoduo/gxd-robust.git
+
+
+
