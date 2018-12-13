@@ -18,28 +18,28 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
+
         Properties localProps = new Properties()
-        localProps.load(new FileInputStream(file('../local.properties')))
-        Properties keyProps = new Properties()
-        // 如果读取不到'keystore.props.file'属性，就使用debug keystore
-        if (localProps['keystore.props.file']) {
-            keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
-        }
+        localProps.load(new FileInputStream(file('../gxd-sign/gxd-sign.properties')))
+
         debug {
             // 使用assert确保存在该属性否则报错，避免错误打包
-            assert localProps['keystore.props.file']
-            keyAlias keyProps["aliasDebug"]
-            keyPassword keyProps["passDebug"]
-            storeFile file(keyProps["storeDebug"])
-            storePassword keyProps["storePassDebug"]
+            assert localProps['sign-debug-name']
+
+            keyAlias localProps["aliasDebug"]
+            keyPassword localProps["passDebug"]
+            storeFile file(localProps["storeDebug"])
+            storePassword localProps["storePassDebug"]
         }
+
         release {
             // 使用assert确保存在该属性否则报错，避免错误打包
-            assert localProps['keystore.props.file']
-            keyAlias keyProps["alias"]
-            keyPassword keyProps["pass"]
-            storeFile file(keyProps["store"])
-            storePassword keyProps["storePass"]
+            assert localProps['sign-name']
+
+            keyAlias localProps["alias"]
+            keyPassword localProps["pass"]
+            storeFile file(localProps["store"])
+            storePassword localProps["storePass"]
         }
     }
     buildTypes {
